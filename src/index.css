@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --color-emerald-dark: #064E3B;
+  --color-slate-dark: #0F172A;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-dark text-white min-h-screen font-sans antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-emerald-dark hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-200 active:scale-95;
+  }
+
+  .card {
+    @apply bg-slate-800 rounded-2xl p-4 border border-slate-700;
+  }
+
+  .badge-golf {
+    @apply bg-emerald-dark text-emerald-100 text-xs font-medium px-2.5 py-1 rounded-full;
+  }
+
+  .badge-fitness {
+    @apply bg-amber-600 text-amber-100 text-xs font-medium px-2.5 py-1 rounded-full;
+  }
+}
