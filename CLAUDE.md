@@ -190,6 +190,14 @@ All exercises sourced from TPI (Titleist Performance Institute).
 | `HistoryView.tsx` | Displays archived week completion history with expandable entries |
 | `TPIAssessmentView.tsx` | TPI benchmark entry form and trend tracking |
 
+## Deployment
+
+- **Production URL:** https://4hourgolfer.vercel.app
+- **Hosting:** Vercel (auto-deploys from `main` branch on GitHub)
+- **Build:** `tsc -b && vite build` → `dist/`
+- **No backend** — all data in localStorage per device
+- **PWA** — installable on mobile via "Add to Home Screen"
+
 ## UI Patterns
 
 - Dark theme with slate backgrounds
