@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { ChevronDown, ChevronUp, Dumbbell, Flame, Snowflake } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ChevronDown, ChevronUp, Dumbbell, Flame, RefreshCw, Snowflake } from "lucide-react";
 import type { FitnessSession } from "@/types";
 import { ExerciseBlock } from "./ExerciseBlock";
 import { useApp } from "@/context/AppContext";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useNotes } from "@/hooks/useNotes";
 import { cn } from "@/lib/utils";
 
 interface FitnessSessionCardProps {
@@ -11,9 +13,10 @@ interface FitnessSessionCardProps {
 
 export function FitnessSessionCard({ session }: FitnessSessionCardProps) {
   const { dispatch } = useApp();
-  const [isExpanded, setIsExpanded] = useState(true);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const { getNote, setNote } = useNotes();
 
-  const totalExercises = session.mainExercises.length + 2; // +2 for warmup and cooldown
+  const totalExercises = session.mainExercises.length + 2;
   const completedCount =
     (session.warmup.completed ? 1 : 0) +
     session.mainExercises.filter((e) => e.completed).length +
@@ -21,12 +24,31 @@ export function FitnessSessionCard({ session }: FitnessSessionCardProps) {
   const progress = (completedCount / totalExercises) * 100;
   const isComplete = completedCount === totalExercises;
 
+  const [isExpanded, setIsExpanded] = useState(!isComplete);
+
+  // Auto-collapse when all exercises completed
+  useEffect(() => {
+    if (isComplete) setIsExpanded(false);
+  }, [isComplete]);
+
   const handleToggleBlock = (blockId: string) => {
     dispatch({
       type: "TOGGLE_BLOCK",
       payload: { sessionId: session.id, blockId },
     });
   };
+
+  const handleRegenerate = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    dispatch({ type: "REGENERATE_SESSION", payload: { sessionId: session.id } });
+  };
+
+  const exerciseProps = (exerciseId: string) => ({
+    isFavorite: isFavorite(exerciseId),
+    onToggleFavorite: () => toggleFavorite(exerciseId),
+    note: getNote(exerciseId),
+    onNoteChange: (text: string) => setNote(exerciseId, text),
+  });
 
   return (
     <div
@@ -50,7 +72,14 @@ export function FitnessSessionCard({ session }: FitnessSessionCardProps) {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleRegenerate}
+            className="p-1.5 rounded-lg hover:bg-slate-600/50 text-slate-400 hover:text-white transition-colors"
+            title="Regenerate session"
+          >
+            <RefreshCw className="h-4 w-4" />
+          </button>
           <div
             className={cn(
               "px-2.5 py-1 rounded-full text-xs font-medium",
@@ -92,6 +121,8 @@ export function FitnessSessionCard({ session }: FitnessSessionCardProps) {
               block={session.warmup}
               variant="warmup"
               onToggle={() => handleToggleBlock(session.warmup.id)}
+              onSwap={() => dispatch({ type: "SWAP_BLOCK", payload: { sessionId: session.id, blockId: session.warmup.id } })}
+              {...exerciseProps(session.warmup.exercise.id)}
             />
           </div>
 
@@ -111,6 +142,8 @@ export function FitnessSessionCard({ session }: FitnessSessionCardProps) {
                   variant="main"
                   exerciseNumber={index + 1}
                   onToggle={() => handleToggleBlock(block.id)}
+                  onSwap={() => dispatch({ type: "SWAP_BLOCK", payload: { sessionId: session.id, blockId: block.id } })}
+                  {...exerciseProps(block.exercise.id)}
                 />
               ))}
             </div>
@@ -128,6 +161,8 @@ export function FitnessSessionCard({ session }: FitnessSessionCardProps) {
               block={session.cooldown}
               variant="cooldown"
               onToggle={() => handleToggleBlock(session.cooldown.id)}
+              onSwap={() => dispatch({ type: "SWAP_BLOCK", payload: { sessionId: session.id, blockId: session.cooldown.id } })}
+              {...exerciseProps(session.cooldown.exercise.id)}
             />
           </div>
         </div>

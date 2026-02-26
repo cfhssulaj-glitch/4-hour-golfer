@@ -15,7 +15,7 @@
 
 ## Overview
 
-**4-Hour Golfer** is a React + TypeScript web app that generates weekly golf practice and fitness schedules. Users select 4 days per week, and the app alternates between golf practice sessions and TPI-based fitness sessions.
+**4-Hour Golfer** is a React + TypeScript web app that generates weekly golf practice and fitness schedules. Users select 3-5 days per week, assign each day as golf or fitness (defaulting to alternating), and the app generates randomized sessions with variety.
 
 ## Tech Stack
 
@@ -30,37 +30,47 @@
 
 ```
 src/
-├── App.tsx              # Root component, conditionally renders DaySelector or WeekSchedule
+├── App.tsx              # Root component, view router (schedule/history/assessment)
 ├── main.tsx             # Entry point
 ├── index.css            # Global styles and Tailwind imports
 ├── types/
-│   └── index.ts         # All TypeScript interfaces and types
+│   ├── index.ts         # Core app interfaces (AppState, Session, WeekHistory, etc.)
+│   └── assessment.ts    # TPI assessment types
 ├── context/
-│   └── AppContext.tsx   # Global state management (useReducer + Context)
+│   └── AppContext.tsx    # Global state management (useReducer + Context), handles archive-on-reset
+├── hooks/
+│   ├── useHistory.ts    # Read/clear weekly completion history from localStorage
+│   ├── useAssessments.ts # TPI assessment CRUD
+│   ├── useFavorites.ts  # Favorite drill/exercise toggle (Set<string>)
+│   ├── useNotes.ts      # Per-drill/exercise user notes
+│   └── useFrequency.ts  # Usage frequency tracking
 ├── data/
 │   └── drills.ts        # Exercise and drill database
 ├── components/
-│   ├── Header.tsx       # App header with reset button
-│   ├── DaySelector.tsx  # Day selection UI (setup screen)
+│   ├── Header.tsx       # App header with navigation (history, assessment) and reset
+│   ├── DaySelector.tsx  # Day selection UI (3-5 days, manual golf/fitness assignment)
 │   ├── WeekSchedule.tsx # Main schedule view with progress
-│   ├── SessionCard.tsx  # Golf session display
-│   ├── FitnessSessionCard.tsx  # Fitness session display
-│   ├── DrillBlock.tsx   # Individual golf drill item
-│   ├── ExerciseBlock.tsx # Individual exercise item
+│   ├── SessionCard.tsx  # Expandable golf session card with swap/favorite/notes
+│   ├── FitnessSessionCard.tsx  # Expandable fitness session card with swap/favorite/notes
+│   ├── DrillBlock.tsx   # Individual golf drill with swap/favorite/notes controls
+│   ├── ExerciseBlock.tsx # Individual exercise with swap/favorite/notes controls
+│   ├── HistoryView.tsx  # Archived week completion history
+│   ├── TPIAssessmentView.tsx # TPI benchmark entry and trend tracking
 │   └── ui/              # Reusable UI primitives (Button, Checkbox)
 └── lib/
-    └── utils.ts         # Utility functions (cn for classnames)
+    └── utils.ts         # Utility functions (cn, calculateCompletion)
 ```
 
 ## Data Flow
 
 ### State Management
 
-All app state lives in `AppContext.tsx` using `useReducer`:
+**Core schedule state** lives in `AppContext.tsx` using `useReducer`:
 
 ```typescript
 interface AppState {
-  selectedDays: string[];      // Which 4 days user selected
+  selectedDays: string[];      // 3-5 days user selected
+  sessionTypes: Record<string, "golf" | "fitness">; // Manual session type override per day
   schedule: Session[];         // Generated sessions for the week
   setupComplete: boolean;      // Whether to show schedule or day selector
 }
@@ -68,24 +78,42 @@ interface AppState {
 
 **Actions:**
 - `SET_DAYS` - Store selected days
+- `SET_SESSION_TYPES` - Override automatic golf/fitness alternation
 - `GENERATE_SCHEDULE` - Create sessions based on selected days
 - `TOGGLE_BLOCK` - Mark exercise/drill complete/incomplete
-- `RESET` - Return to day selection
+- `REGENERATE_SESSION` - Regenerate a single session's drills/exercises
+- `SWAP_BLOCK` - Replace individual drill/exercise with random alternative from same category
+- `RESET_AND_ARCHIVE` - Archive current week to history, then reset to day selection
+- `RESET` - Return to day selection (without archiving)
 - `LOAD_STATE` - Restore from localStorage
+
+**Feature-specific state** uses isolated hooks with their own localStorage:
+- `useHistory` - Read/clear archived week history
+- `useAssessments` - TPI assessment records
+- `useFavorites` - Favorited drill/exercise IDs (Set)
+- `useNotes` - User notes keyed by drill/exercise ID
+
+This split is intentional: core schedule data uses Context (shared across many components), while ancillary user preferences use isolated hooks (only needed by specific views).
 
 ### Schedule Generation Logic
 
 Located in `AppContext.tsx`:
 
 1. Days are sorted by week order (Monday first)
-2. Sessions alternate: Golf (even index) → Fitness (odd index)
+2. Sessions use manual types from `sessionTypes` map, falling back to alternating pattern (even=golf, odd=fitness)
 3. **Golf sessions**: 4 drills selected with category variety (Face Contact, Ground Contact, Face Direction, Putting, Short Game)
 4. **Fitness sessions**: 1 warmup + 5 main exercises + 1 cooldown, with category variety
 5. Previously used drills/exercises are tracked to avoid repetition within the week
 
 ### Persistence
 
-State auto-saves to `localStorage` under key `four-hour-golfer-state` and restores on app load.
+All data persists in `localStorage` under these keys:
+- `four-hour-golfer-state` - Core app state (schedule, selected days, session types)
+- `four-hour-golfer-history` - Archived week completions (written by AppContext on reset, read by useHistory)
+- `four-hour-golfer-assessments` - TPI assessment records
+- `four-hour-golfer-favorites` - Favorited drill/exercise IDs
+- `four-hour-golfer-notes` - User notes by drill/exercise ID
+- `four-hour-golfer-frequency` - Usage count per drill/exercise
 
 ## Key Types
 
@@ -118,6 +146,12 @@ interface ExerciseBlock { id: string; exercise: Exercise; completed: boolean; }
 // Session types
 interface GolfSession { type: "golf"; blocks: Block[]; ... }
 interface FitnessSession { type: "fitness"; warmup: ExerciseBlock; mainExercises: ExerciseBlock[]; cooldown: ExerciseBlock; ... }
+
+// Archived week
+interface WeekHistory { id: string; date: string; days: string[]; sessions: Session[]; completionRate: number; }
+
+// TPI assessment (in types/assessment.ts)
+interface TPIAssessment { id: string; date: string; verticalJump: number | null; /* ...12 more fields */ }
 ```
 
 ## Exercise Database
@@ -145,13 +179,16 @@ All exercises sourced from TPI (Titleist Performance Institute).
 
 | Component | Purpose |
 |-----------|---------|
-| `App.tsx` | Wraps everything in AppProvider, conditionally renders setup vs schedule |
-| `DaySelector.tsx` | 7-day grid, max 4 selections, shows schedule preview |
+| `App.tsx` | Wraps in AppProvider, view router (schedule/history/assessment) |
+| `Header.tsx` | App header with navigation buttons (history, assessment, reset) |
+| `DaySelector.tsx` | Day selection UI (3-5 days, manual golf/fitness assignment per day) |
 | `WeekSchedule.tsx` | Overall progress bar, renders session cards |
-| `SessionCard.tsx` | Expandable card for golf sessions, shows 4 drill blocks |
-| `FitnessSessionCard.tsx` | Expandable card for fitness, shows warmup/main/cooldown |
-| `DrillBlock.tsx` | Checkbox + drill name/description |
-| `ExerciseBlock.tsx` | Checkbox + exercise with sets/reps/duration |
+| `SessionCard.tsx` | Expandable golf session card with regenerate, swap, favorite, notes |
+| `FitnessSessionCard.tsx` | Expandable fitness card with regenerate, swap, favorite, notes |
+| `DrillBlock.tsx` | Golf drill item with swap/favorite/notes controls |
+| `ExerciseBlock.tsx` | Exercise item with swap/favorite/notes controls |
+| `HistoryView.tsx` | Displays archived week completion history with expandable entries |
+| `TPIAssessmentView.tsx` | TPI benchmark entry form and trend tracking |
 
 ## UI Patterns
 

@@ -3,6 +3,8 @@ import {
   useContext,
   useReducer,
   useEffect,
+  useCallback,
+  useRef,
   type ReactNode,
 } from "react";
 import type {
@@ -15,7 +17,9 @@ import type {
   ExerciseBlock,
   Drill,
   Exercise,
+  WeekHistory,
 } from "@/types";
+import { calculateCompletion } from "@/lib/utils";
 import {
   golfDrills,
   warmupExercises,
@@ -28,6 +32,7 @@ const STORAGE_KEY = "four-hour-golfer-state";
 
 const initialState: AppState = {
   selectedDays: [],
+  sessionTypes: {},
   schedule: [],
   setupComplete: false,
 };
@@ -163,7 +168,10 @@ function generateFitnessSession(
   };
 }
 
-function generateSchedule(selectedDays: string[]): Session[] {
+function generateSchedule(
+  selectedDays: string[],
+  sessionTypes: Record<string, "golf" | "fitness">
+): Session[] {
   // Sort days by their position in the week
   const sortedDays = [...selectedDays].sort(
     (a, b) =>
@@ -178,10 +186,12 @@ function generateSchedule(selectedDays: string[]): Session[] {
   const usedCooldowns = new Set<string>();
 
   sortedDays.forEach((day, index) => {
-    const isGolf = index % 2 === 0;
+    // Use sessionTypes map if available, fall back to alternating pattern
+    const isGolf = sessionTypes[day]
+      ? sessionTypes[day] === "golf"
+      : index % 2 === 0;
 
     if (isGolf) {
-      // Golf session: avoid drills used in previous golf session this week
       const availableDrills = golfDrills.filter(
         (d) => !usedGolfDrills.includes(d)
       );
@@ -192,7 +202,6 @@ function generateSchedule(selectedDays: string[]): Session[] {
       sessions.push(session);
       usedGolfDrills = [...usedGolfDrills, ...usedDrills];
     } else {
-      // Fitness session: avoid exercises used in previous fitness session this week
       const availableMain = mainExercises.filter(
         (e) => !usedMainExercises.includes(e)
       );
@@ -220,10 +229,16 @@ function appReducer(state: AppState, action: AppAction): AppState {
         selectedDays: action.payload,
       };
 
+    case "SET_SESSION_TYPES":
+      return {
+        ...state,
+        sessionTypes: action.payload,
+      };
+
     case "GENERATE_SCHEDULE":
       return {
         ...state,
-        schedule: generateSchedule(state.selectedDays),
+        schedule: generateSchedule(state.selectedDays, state.sessionTypes),
         setupComplete: true,
       };
 
@@ -243,7 +258,6 @@ function appReducer(state: AppState, action: AppAction): AppState {
               ),
             };
           } else {
-            // Fitness session
             if (session.warmup.id === action.payload.blockId) {
               return {
                 ...session,
@@ -269,11 +283,95 @@ function appReducer(state: AppState, action: AppAction): AppState {
       };
     }
 
+    case "REGENERATE_SESSION": {
+      return {
+        ...state,
+        schedule: state.schedule.map((session) => {
+          if (session.id !== action.payload.sessionId) return session;
+          if (session.type === "golf") {
+            const { session: newSession } = generateGolfSession(session.day, golfDrills);
+            return { ...newSession, id: session.id };
+          } else {
+            const { session: newSession } = generateFitnessSession(
+              session.day, mainExercises, new Set(), new Set()
+            );
+            return { ...newSession, id: session.id };
+          }
+        }),
+      };
+    }
+
+    case "SWAP_BLOCK": {
+      return {
+        ...state,
+        schedule: state.schedule.map((session) => {
+          if (session.id !== action.payload.sessionId) return session;
+
+          if (session.type === "golf") {
+            return {
+              ...session,
+              blocks: session.blocks.map((block) => {
+                if (block.id !== action.payload.blockId) return block;
+                const usedIds = new Set(session.blocks.map((b) => b.drill.id));
+                const sameCat = golfDrills.filter(
+                  (d) => d.category === block.drill.category && !usedIds.has(d.id)
+                );
+                const pool = sameCat.length > 0
+                  ? sameCat
+                  : golfDrills.filter((d) => !usedIds.has(d.id));
+                if (pool.length === 0) return block;
+                return { ...block, drill: pool[Math.floor(Math.random() * pool.length)], completed: false };
+              }),
+            };
+          } else {
+            // Check warmup
+            if (session.warmup.id === action.payload.blockId) {
+              const usedId = session.warmup.exercise.id;
+              const pool = warmupExercises.filter((e) => e.id !== usedId);
+              if (pool.length === 0) return session;
+              return {
+                ...session,
+                warmup: { ...session.warmup, exercise: pool[Math.floor(Math.random() * pool.length)], completed: false },
+              };
+            }
+            // Check cooldown
+            if (session.cooldown.id === action.payload.blockId) {
+              const usedId = session.cooldown.exercise.id;
+              const pool = cooldownExercises.filter((e) => e.id !== usedId);
+              if (pool.length === 0) return session;
+              return {
+                ...session,
+                cooldown: { ...session.cooldown, exercise: pool[Math.floor(Math.random() * pool.length)], completed: false },
+              };
+            }
+            // Main exercises
+            return {
+              ...session,
+              mainExercises: session.mainExercises.map((block) => {
+                if (block.id !== action.payload.blockId) return block;
+                const usedIds = new Set(session.mainExercises.map((b) => b.exercise.id));
+                const sameCat = mainExercises.filter(
+                  (e) => e.category === block.exercise.category && !usedIds.has(e.id)
+                );
+                const pool = sameCat.length > 0
+                  ? sameCat
+                  : mainExercises.filter((e) => !usedIds.has(e.id));
+                if (pool.length === 0) return block;
+                return { ...block, exercise: pool[Math.floor(Math.random() * pool.length)], completed: false };
+              }),
+            };
+          }
+        }),
+      };
+    }
+
     case "RESET":
+    case "RESET_AND_ARCHIVE":
       return initialState;
 
     case "LOAD_STATE":
-      return action.payload;
+      // Backward compat: ensure sessionTypes exists
+      return { ...initialState, ...action.payload, sessionTypes: action.payload.sessionTypes ?? {} };
 
     default:
       return state;
@@ -287,8 +385,41 @@ interface AppContextValue {
 
 const AppContext = createContext<AppContextValue | null>(null);
 
+const HISTORY_STORAGE_KEY = "four-hour-golfer-history";
+
+function archiveCurrentWeek(state: AppState): void {
+  if (state.schedule.length === 0) return;
+  const entry: WeekHistory = {
+    id: `week-${Date.now()}`,
+    date: new Date().toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }),
+    days: state.selectedDays,
+    sessions: state.schedule,
+    completionRate: calculateCompletion(state.schedule).percent,
+  };
+  try {
+    const saved = localStorage.getItem(HISTORY_STORAGE_KEY);
+    const history: WeekHistory[] = saved ? JSON.parse(saved) : [];
+    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify([entry, ...history]));
+  } catch {
+    // Ignore localStorage errors
+  }
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+  const [state, rawDispatch] = useReducer(appReducer, initialState);
+  const stateRef = useRef(state);
+  stateRef.current = state;
+
+  const dispatch = useCallback((action: AppAction) => {
+    if (action.type === "RESET_AND_ARCHIVE") {
+      archiveCurrentWeek(stateRef.current);
+    }
+    rawDispatch(action);
+  }, []);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -296,7 +427,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (saved) {
       try {
         const parsed = JSON.parse(saved) as AppState;
-        dispatch({ type: "LOAD_STATE", payload: parsed });
+        rawDispatch({ type: "LOAD_STATE", payload: parsed });
       } catch {
         // Invalid saved state, use initial
       }

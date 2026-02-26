@@ -4,6 +4,7 @@ export interface Drill {
   name: string;
   description: string;
   source: string;
+  url?: string;
 }
 
 export interface Exercise {
@@ -15,6 +16,7 @@ export interface Exercise {
   reps?: string;
   duration?: string;
   source: string;
+  url?: string;
 }
 
 export interface Block {
@@ -51,15 +53,20 @@ export type Session = GolfSession | FitnessSession;
 
 export interface AppState {
   selectedDays: string[];
+  sessionTypes: Record<string, "golf" | "fitness">;
   schedule: Session[];
   setupComplete: boolean;
 }
 
 export type AppAction =
   | { type: "SET_DAYS"; payload: string[] }
+  | { type: "SET_SESSION_TYPES"; payload: Record<string, "golf" | "fitness"> }
   | { type: "GENERATE_SCHEDULE" }
   | { type: "TOGGLE_BLOCK"; payload: { sessionId: string; blockId: string } }
+  | { type: "REGENERATE_SESSION"; payload: { sessionId: string } }
+  | { type: "SWAP_BLOCK"; payload: { sessionId: string; blockId: string } }
   | { type: "RESET" }
+  | { type: "RESET_AND_ARCHIVE" }
   | { type: "LOAD_STATE"; payload: AppState };
 
 export const DAYS_OF_WEEK = [
@@ -73,3 +80,11 @@ export const DAYS_OF_WEEK = [
 ] as const;
 
 export type DayOfWeek = (typeof DAYS_OF_WEEK)[number];
+
+export interface WeekHistory {
+  id: string;
+  date: string;
+  days: string[];
+  sessions: Session[];
+  completionRate: number;
+}

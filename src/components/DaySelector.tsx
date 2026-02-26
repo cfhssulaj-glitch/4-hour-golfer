@@ -15,44 +15,79 @@ const DAY_ABBREV: Record<string, string> = {
   Sunday: "Sun",
 };
 
+const MIN_DAYS = 3;
+const MAX_DAYS = 5;
+
 export function DaySelector() {
   const { dispatch } = useApp();
   const [selected, setSelected] = useState<string[]>([]);
+  const [sessionTypes, setSessionTypes] = useState<Record<string, "golf" | "fitness">>({});
 
   const toggleDay = (day: string) => {
     setSelected((prev) => {
       if (prev.includes(day)) {
-        return prev.filter((d) => d !== day);
+        const next = prev.filter((d) => d !== day);
+        setSessionTypes((st) => {
+          const copy = { ...st };
+          delete copy[day];
+          return copy;
+        });
+        return next;
       }
-      if (prev.length >= 4) {
-        return prev;
-      }
-      return [...prev, day];
+      if (prev.length >= MAX_DAYS) return prev;
+      const next = [...prev, day];
+      // Auto-assign type based on position when adding
+      const sorted = [...next].sort(
+        (a, b) =>
+          DAYS_OF_WEEK.indexOf(a as any) - DAYS_OF_WEEK.indexOf(b as any)
+      );
+      const idx = sorted.indexOf(day);
+      setSessionTypes((st) => ({
+        ...st,
+        [day]: idx % 2 === 0 ? "golf" : "fitness",
+      }));
+      return next;
     });
   };
 
+  const toggleSessionType = (day: string) => {
+    setSessionTypes((prev) => ({
+      ...prev,
+      [day]: prev[day] === "golf" ? "fitness" : "golf",
+    }));
+  };
+
+  const sortedSelected = [...selected].sort(
+    (a, b) =>
+      DAYS_OF_WEEK.indexOf(a as any) - DAYS_OF_WEEK.indexOf(b as any)
+  );
+
+  const hasGolf = sortedSelected.some((d) => sessionTypes[d] === "golf");
+  const hasFitness = sortedSelected.some((d) => sessionTypes[d] === "fitness");
+  const canConfirm = selected.length >= MIN_DAYS && hasGolf && hasFitness;
+
   const handleConfirm = () => {
-    if (selected.length === 4) {
-      dispatch({ type: "SET_DAYS", payload: selected });
-      dispatch({ type: "GENERATE_SCHEDULE" });
-    }
+    if (!canConfirm) return;
+    dispatch({ type: "SET_DAYS", payload: selected });
+    dispatch({ type: "SET_SESSION_TYPES", payload: sessionTypes });
+    dispatch({ type: "GENERATE_SCHEDULE" });
   };
 
   return (
     <div className="max-w-lg mx-auto px-4 py-8">
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-white mb-2">
-          Choose Your 4 Days
+          Choose Your Days
         </h2>
         <p className="text-slate-400">
-          Select the days you'll commit to your practice
+          Select {MIN_DAYS}-{MAX_DAYS} days for your practice week
         </p>
       </div>
 
       <div className="grid grid-cols-7 gap-2 mb-8">
         {DAYS_OF_WEEK.map((day) => {
           const isSelected = selected.includes(day);
-          const isDisabled = !isSelected && selected.length >= 4;
+          const isDisabled = !isSelected && selected.length >= MAX_DAYS;
 
           return (
             <button
@@ -77,48 +112,54 @@ export function DaySelector() {
       </div>
 
       <div className="bg-slate-800/50 rounded-2xl p-4 mb-8">
-        <h3 className="text-sm font-medium text-slate-300 mb-3">
+        <h3 className="text-sm font-medium text-slate-300 mb-1">
           Your Schedule Preview:
         </h3>
+        <p className="text-xs text-slate-500 mb-3">
+          Tap Golf/Fitness to change session type
+        </p>
         <div className="space-y-2">
           {selected.length === 0 ? (
-            <p className="text-slate-500 text-sm">Select 4 days to begin</p>
+            <p className="text-slate-500 text-sm">Select {MIN_DAYS}-{MAX_DAYS} days to begin</p>
           ) : (
-            [...selected]
-              .sort(
-                (a, b) =>
-                  DAYS_OF_WEEK.indexOf(a as any) -
-                  DAYS_OF_WEEK.indexOf(b as any)
-              )
-              .map((day, index) => (
+            sortedSelected.map((day) => {
+              const type = sessionTypes[day] || "golf";
+              return (
                 <div
                   key={day}
                   className="flex items-center justify-between text-sm"
                 >
                   <span className="text-white">{day}</span>
-                  <span
+                  <button
+                    onClick={() => toggleSessionType(day)}
                     className={cn(
-                      "px-2 py-0.5 rounded-full text-xs font-medium",
-                      index % 2 === 0
-                        ? "bg-emerald-dark/30 text-emerald-300"
-                        : "bg-amber-600/30 text-amber-300"
+                      "px-2 py-0.5 rounded-full text-xs font-medium transition-colors",
+                      type === "golf"
+                        ? "bg-emerald-dark/30 text-emerald-300 hover:bg-emerald-dark/50"
+                        : "bg-amber-600/30 text-amber-300 hover:bg-amber-600/50"
                     )}
                   >
-                    {index % 2 === 0 ? "Golf Practice" : "Fitness"}
-                  </span>
+                    {type === "golf" ? "Golf Practice" : "Fitness"}
+                  </button>
                 </div>
-              ))
+              );
+            })
           )}
         </div>
+        {selected.length >= MIN_DAYS && (!hasGolf || !hasFitness) && (
+          <p className="text-xs text-amber-400 mt-2">
+            Need at least 1 Golf + 1 Fitness day
+          </p>
+        )}
       </div>
 
       <div className="text-center">
         <p className="text-sm text-slate-400 mb-4">
-          {selected.length}/4 days selected
+          {selected.length}/{MIN_DAYS}-{MAX_DAYS} days selected
         </p>
         <Button
           onClick={handleConfirm}
-          disabled={selected.length !== 4}
+          disabled={!canConfirm}
           className="w-full"
           size="lg"
         >

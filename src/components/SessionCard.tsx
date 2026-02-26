@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { ChevronDown, ChevronUp, Target } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ChevronDown, ChevronUp, RefreshCw, Target } from "lucide-react";
 import type { GolfSession } from "@/types";
 import { DrillBlock } from "./DrillBlock";
 import { useApp } from "@/context/AppContext";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useNotes } from "@/hooks/useNotes";
 import { cn } from "@/lib/utils";
 
 interface SessionCardProps {
@@ -11,17 +13,30 @@ interface SessionCardProps {
 
 export function SessionCard({ session }: SessionCardProps) {
   const { dispatch } = useApp();
-  const [isExpanded, setIsExpanded] = useState(true);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const { getNote, setNote } = useNotes();
 
   const completedCount = session.blocks.filter((b) => b.completed).length;
   const progress = (completedCount / session.blocks.length) * 100;
   const isComplete = completedCount === session.blocks.length;
+
+  const [isExpanded, setIsExpanded] = useState(!isComplete);
+
+  // Auto-collapse when all blocks completed
+  useEffect(() => {
+    if (isComplete) setIsExpanded(false);
+  }, [isComplete]);
 
   const handleToggleBlock = (blockId: string) => {
     dispatch({
       type: "TOGGLE_BLOCK",
       payload: { sessionId: session.id, blockId },
     });
+  };
+
+  const handleRegenerate = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    dispatch({ type: "REGENERATE_SESSION", payload: { sessionId: session.id } });
   };
 
   return (
@@ -46,8 +61,14 @@ export function SessionCard({ session }: SessionCardProps) {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          {/* Progress badge */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleRegenerate}
+            className="p-1.5 rounded-lg hover:bg-slate-600/50 text-slate-400 hover:text-white transition-colors"
+            title="Regenerate session"
+          >
+            <RefreshCw className="h-4 w-4" />
+          </button>
           <div
             className={cn(
               "px-2.5 py-1 rounded-full text-xs font-medium",
@@ -83,6 +104,11 @@ export function SessionCard({ session }: SessionCardProps) {
               block={block}
               blockNumber={index + 1}
               onToggle={() => handleToggleBlock(block.id)}
+              onSwap={() => dispatch({ type: "SWAP_BLOCK", payload: { sessionId: session.id, blockId: block.id } })}
+              isFavorite={isFavorite(block.drill.id)}
+              onToggleFavorite={() => toggleFavorite(block.drill.id)}
+              note={getNote(block.drill.id)}
+              onNoteChange={(text) => setNote(block.drill.id, text)}
             />
           ))}
         </div>

@@ -1,0 +1,17 @@
+{
+  "name": "The 4-Hour Golfer",
+  "short_name": "4Hr Golfer",
+  "description": "Weekly golf practice and fitness schedule generator",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#0F172A",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

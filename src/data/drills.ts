@@ -13,6 +13,7 @@ export const golfDrills: Drill[] = [
     description:
       "Spend 5 mins trying to hit the toe, 5 mins trying to hit the heel, 5 mins center. Develops awareness.",
     source: "Sweet Spot Podcast",
+    url: "https://www.youtube.com/watch?v=H8-HTgBAlsE",
   },
   {
     id: "g2",
@@ -21,6 +22,7 @@ export const golfDrills: Drill[] = [
     description:
       "Spray the clubface with foot powder or dry shampoo. Hit shots and check impact location. Aim for consistent center strikes.",
     source: "Dr. Golfsmith",
+    url: "https://www.youtube.com/watch?v=bQvBlumKHno",
   },
   {
     id: "g3",
@@ -29,6 +31,7 @@ export const golfDrills: Drill[] = [
     description:
       "Hit 5 balls each at low, medium, and high tee heights. Focus on maintaining center contact regardless of tee height.",
     source: "Monte Scheinblum",
+    url: "https://www.youtube.com/watch?v=T8yRFqqTxFQ",
   },
   {
     id: "g4",
@@ -37,6 +40,7 @@ export const golfDrills: Drill[] = [
     description:
       "Hit shots with lead hand only, then trail hand only. Builds awareness of how each hand controls the clubface.",
     source: "Golf Science Lab",
+    url: "https://www.youtube.com/watch?v=ScAQrEe1mOI",
   },
   {
     id: "g5",
@@ -45,6 +49,7 @@ export const golfDrills: Drill[] = [
     description:
       "Take 50% swings with a 7-iron, focusing purely on sweet spot contact. Quality over speed.",
     source: "John Sherman",
+    url: "https://www.youtube.com/watch?v=YrllusNNmQw",
   },
   {
     id: "g6",
@@ -53,6 +58,7 @@ export const golfDrills: Drill[] = [
     description:
       "Hit balls with eyes closed after setup. Develops feel for the clubhead and improves kinesthetic awareness.",
     source: "Butch Harmon",
+    url: "https://www.youtube.com/watch?v=dokN1BMgcko",
   },
 
   // GROUND CONTACT (Low Point Control)
@@ -63,6 +69,7 @@ export const golfDrills: Drill[] = [
     description:
       "Place a towel 2-4 inches behind the ball. Hit the ball without disturbing the towel to ensure ball-first contact.",
     source: "John Sherman",
+    url: "https://www.youtube.com/watch?v=ASH06DwHaRw",
   },
   {
     id: "g8",
@@ -71,6 +78,7 @@ export const golfDrills: Drill[] = [
     description:
       "Draw a line in a bunker or use a chalk line. Place ball on the line and ensure divot starts at or after the line.",
     source: "Dave Pelz",
+    url: "https://www.youtube.com/watch?v=wvRC8bpc3k8",
   },
   {
     id: "g9",
@@ -79,6 +87,7 @@ export const golfDrills: Drill[] = [
     description:
       "Place a coin 2 inches behind the ball. Goal is to strike the ball without hitting the coin.",
     source: "Sweet Spot Podcast",
+    url: "https://www.youtube.com/watch?v=SeyNF6Ttmp4",
   },
   {
     id: "g10",
@@ -87,6 +96,7 @@ export const golfDrills: Drill[] = [
     description:
       "Place a thin board 3 inches behind the ball. Forces you to hit down and forward, not behind the ball.",
     source: "Mike Malaska",
+    url: "https://www.youtube.com/watch?v=inQ96eTZ5LA",
   },
   {
     id: "g11",
@@ -95,6 +105,7 @@ export const golfDrills: Drill[] = [
     description:
       "Find an uphill lie and hit 20 shots. Exaggerates the feel of hitting down on the ball.",
     source: "Stan Utley",
+    url: "https://www.youtube.com/watch?v=Si-h4AkydgA",
   },
   {
     id: "g12",
@@ -103,6 +114,7 @@ export const golfDrills: Drill[] = [
     description:
       "Place a tee 4 inches in front of the ball. Try to clip the tee after striking the ball. Promotes forward shaft lean.",
     source: "Adam Young Golf",
+    url: "https://www.youtube.com/watch?v=wgrcvDL1GSM",
   },
 
   // FACE DIRECTION (Start Line Control)
@@ -113,6 +125,7 @@ export const golfDrills: Drill[] = [
     description:
       "Place two alignment sticks 6 feet in front of you, just wider than the ball. Hit shots through the gate.",
     source: "Sweet Spot Podcast",
+    url: "https://www.youtube.com/watch?v=XsjZ4oHos6U",
   },
   {
     id: "g14",
@@ -121,6 +134,7 @@ export const golfDrills: Drill[] = [
     description:
       "Hit 3 fades, 3 draws, 3 straight shots. Develops face awareness and shot shaping ability.",
     source: "Trackman",
+    url: "https://www.youtube.com/watch?v=d_2frKoPMZI",
   },
   {
     id: "g15",
@@ -129,6 +143,7 @@ export const golfDrills: Drill[] = [
     description:
       "Stick in ground 10 yards out on target line. Hit 10 shots starting directly at the stick.",
     source: "George Gankas",
+    url: "https://www.youtube.com/watch?v=tjWBhZh98nU",
   },
   {
     id: "g16",
@@ -137,6 +152,7 @@ export const golfDrills: Drill[] = [
     description:
       "Put tape on clubface. Check tape angle at impact using slow-motion video. Train square face at impact.",
     source: "Golf Digest",
+    url: "https://www.youtube.com/watch?v=2-5QIP0X6kQ",
   },
   {
     id: "g17",
@@ -145,6 +161,7 @@ export const golfDrills: Drill[] = [
     description:
       "Create a gate with pool noodles 3 feet in front. Wider at first, gradually narrow as you improve.",
     source: "Golf Sidekick",
+    url: "https://www.youtube.com/watch?v=FhxvTfp1a1g",
   },
   {
     id: "g18",
@@ -153,6 +170,7 @@ export const golfDrills: Drill[] = [
     description:
       "Imagine a clock face around target. Hit to 11, 12, and 1 o'clock positions to train face control.",
     source: "Pia Nilsson",
+    url: "https://www.youtube.com/watch?v=B52ebzG2MgQ",
   },
 
   // PUTTING
@@ -163,6 +181,7 @@ export const golfDrills: Drill[] = [
     description:
       "Create a gate with tees for the putter head to pass through (face contact) and a gate for the ball to roll through (start line).",
     source: "Tiger Woods / Sherman",
+    url: "https://www.youtube.com/watch?v=FhMBAvQCE3g",
   },
   {
     id: "g20",
@@ -171,6 +190,7 @@ export const golfDrills: Drill[] = [
     description:
       "Putt balls down a metal ruler from 3 feet. Ball must stay on ruler to go in. Pure start line training.",
     source: "Phil Mickelson",
+    url: "https://www.youtube.com/watch?v=FRE0ZzMQQzw",
   },
   {
     id: "g21",
@@ -179,6 +199,7 @@ export const golfDrills: Drill[] = [
     description:
       "Make 3 in a row from 3 feet, then 6 feet, then 9 feet. Start over if you miss. Builds pressure.",
     source: "Dave Stockton",
+    url: "https://www.youtube.com/watch?v=kPbWbkUXoA4",
   },
   {
     id: "g22",
@@ -187,6 +208,7 @@ export const golfDrills: Drill[] = [
     description:
       "Place 8 balls in a circle 4 feet from the hole. Make all 8 consecutively. Start over on miss.",
     source: "Jordan Spieth",
+    url: "https://www.youtube.com/watch?v=b-P-m0_Fkak",
   },
   {
     id: "g23",
@@ -195,6 +217,7 @@ export const golfDrills: Drill[] = [
     description:
       "From 30+ feet, putt to zones (inside 3 feet = great, inside 6 feet = good). Track percentages.",
     source: "Brad Faxon",
+    url: "https://www.youtube.com/watch?v=CL_6OOtZ8fM",
   },
   {
     id: "g24",
@@ -203,6 +226,7 @@ export const golfDrills: Drill[] = [
     description:
       "Hit 10 putts from 6 feet with eyes closed. Develops feel and removes visual interference.",
     source: "Dr. Bob Rotella",
+    url: "https://www.youtube.com/watch?v=ixWYoLof3fg",
   },
 
   // SHORT GAME
@@ -213,6 +237,7 @@ export const golfDrills: Drill[] = [
     description:
       "Place a towel as your landing zone. Chip 20 balls trying to land on the towel, varying clubs.",
     source: "Phil Mickelson",
+    url: "https://www.youtube.com/watch?v=FrEMrsJlkBw",
   },
   {
     id: "g26",
@@ -221,6 +246,7 @@ export const golfDrills: Drill[] = [
     description:
       "Use only your 56° wedge for 15 minutes. Hit flops, bumps, and standard chips to same target.",
     source: "Seve Ballesteros",
+    url: "https://www.youtube.com/watch?v=QaNU1b0Wb5E",
   },
   {
     id: "g27",
@@ -229,6 +255,7 @@ export const golfDrills: Drill[] = [
     description:
       "Draw a line in bunker sand. Practice entering sand at consistent spot behind the line.",
     source: "Gary Player",
+    url: "https://www.youtube.com/watch?v=3cxejnYXJro",
   },
   {
     id: "g28",
@@ -237,6 +264,18 @@ export const golfDrills: Drill[] = [
     description:
       "Play 9 chip shots around the green. Par is getting up and down. Try to beat par.",
     source: "James Sieckmann",
+    url: "https://www.youtube.com/watch?v=LHdNOABsjag",
+  },
+
+  // CASTING (Lag & Release)
+  {
+    id: "g29",
+    category: "Casting",
+    name: "Swimming Pool Drill",
+    description:
+      "Imagine swinging in waist-deep water. Focus on getting the butt end of the club into the water before the clubhead. Trains lag retention and prevents early release (casting) in the downswing.",
+    source: "TPI",
+    url: "https://www.mytpi.com/exercises/swimming_pool_drill",
   },
 ];
 
@@ -253,6 +292,7 @@ export const warmupExercises: Exercise[] = [
       "Stand on one leg, make large circles with the other leg. 10 forward, 10 backward each side.",
     duration: "2 min",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=x-5h_QUOem8",
   },
   {
     id: "w2",
@@ -262,6 +302,7 @@ export const warmupExercises: Exercise[] = [
       "Lunge forward, place both hands inside lead foot, rotate torso and reach to sky. Alternate sides.",
     duration: "3 min",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=-CiWQ2IvY34",
   },
   {
     id: "w3",
@@ -271,6 +312,7 @@ export const warmupExercises: Exercise[] = [
       "On all fours, flow through cat-cow, adding thoracic rotation at the top of each movement.",
     duration: "2 min",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=kqXwgUEm2dY",
   },
   {
     id: "w4",
@@ -280,6 +322,7 @@ export const warmupExercises: Exercise[] = [
       "Walk forward, pulling each knee to chest and holding briefly. Activates glutes and hips.",
     duration: "2 min",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=DntuzvyLS3o",
   },
   {
     id: "w5",
@@ -289,6 +332,7 @@ export const warmupExercises: Exercise[] = [
       "Start with arm circles, progress to full trunk rotations mimicking the golf swing.",
     duration: "3 min",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=ERB2E5EXc24",
   },
   {
     id: "w6",
@@ -298,6 +342,7 @@ export const warmupExercises: Exercise[] = [
       "Shuffle side to side while swinging arms across body. Warms up hips and shoulders together.",
     duration: "2 min",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=1e4-EIvB3Ek",
   },
 ];
 
@@ -312,6 +357,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=m51AZSXMvEA",
   },
   {
     id: "m2",
@@ -322,6 +368,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "30 sec hold + 5 rotations each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=hKpehetjeA4",
   },
   {
     id: "m3",
@@ -332,6 +379,7 @@ export const mainExercises: Exercise[] = [
     sets: "2",
     reps: "60 sec each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=AI5A1PRYX7E",
   },
   {
     id: "m4",
@@ -342,6 +390,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "15 rocks",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=-SJ1pnldEGU",
   },
   {
     id: "m4a",
@@ -352,6 +401,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "15 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=Rrw9yEhWUj8",
   },
   {
     id: "m4b",
@@ -362,6 +412,7 @@ export const mainExercises: Exercise[] = [
     sets: "2",
     reps: "45 sec each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=L-GldySh3qE",
   },
   {
     id: "m4c",
@@ -372,6 +423,7 @@ export const mainExercises: Exercise[] = [
     sets: "2",
     reps: "5 each side with 5 sec hold",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=qMcdwEMaznU",
   },
   {
     id: "m4d",
@@ -382,6 +434,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 each direction",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=iE7glWxnoGM",
   },
   {
     id: "m4e",
@@ -392,6 +445,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "8 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=6JhXjacD1dI",
   },
 
   // GLUTE ACTIVATION
@@ -404,6 +458,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "12 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=CP8FnbRod6Q",
   },
   {
     id: "m6",
@@ -414,6 +469,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "15 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=6rWe6tLc_KM",
   },
   {
     id: "m7",
@@ -424,6 +480,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "20 steps each direction",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=TeyfkdXAgUg",
   },
   {
     id: "m8",
@@ -434,6 +491,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "12",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=W86oVlnLqY4",
   },
 
   // ANTI-SWAY (Lateral Stability)
@@ -446,6 +504,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=XOezFklpcIw",
   },
   {
     id: "m10",
@@ -456,6 +515,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "8 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=iRKxRm0zLgA",
   },
   {
     id: "m11",
@@ -466,6 +526,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "15 each direction",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=6eoK_yxY8Ak",
   },
   {
     id: "m12",
@@ -476,6 +537,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=Ns8YJkbzUMg",
   },
 
   // ANTI-EARLY EXTENSION
@@ -488,6 +550,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "8 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=hKpehetjeA4",
   },
   {
     id: "m14",
@@ -498,6 +561,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "15",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=acZUjvr8MCw",
   },
   {
     id: "m15",
@@ -508,6 +572,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "30 sec hold",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=lRYBbchqxtI",
   },
   {
     id: "m16",
@@ -518,6 +583,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=ecVUxfanQ8k",
   },
   {
     id: "m16a",
@@ -528,6 +594,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "30 sec each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=mtVqe4CR_60",
   },
   {
     id: "m16b",
@@ -538,6 +605,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 rotations each direction",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=mG_FXR63Jjk",
   },
   {
     id: "m16c",
@@ -548,6 +616,18 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "45 sec hold",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=Ia3EYoDaxdQ",
+  },
+  {
+    id: "m16d",
+    category: "Anti-Early Extension",
+    name: "Belt Buckle Back",
+    description:
+      "Place alignment stick on ground at 45° between feet (trail toe to behind lead heel). At top of backswing, shift pressure into lead toe, then push belt buckle back along the stick line. Keeps trail hip back, drops arms into the slot, and prevents early extension.",
+    sets: "3",
+    reps: "10",
+    source: "TPI",
+    url: "https://www.youtube.com/watch?v=92eE3E3ccaQ",
   },
 
   // T-SPINE MOBILITY
@@ -560,6 +640,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=cncdlzYmbxg",
   },
   {
     id: "m18",
@@ -570,6 +651,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "8 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=gyew25Vaqj8",
   },
   {
     id: "m19",
@@ -580,6 +662,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 extensions",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=81kPLsMt6wY",
   },
   {
     id: "m20",
@@ -590,6 +673,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=I1-M867ocQI",
   },
 
   // CORE STABILITY
@@ -602,6 +686,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=8vflPTMBQ_g",
   },
   {
     id: "m22",
@@ -612,6 +697,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "8 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=_1j_HWknGLg",
   },
   {
     id: "m23",
@@ -622,6 +708,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "12 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=Pnd6UMYjwWE",
   },
   {
     id: "m24",
@@ -632,6 +719,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "20 total taps",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=gKA5LBy7WAI",
   },
 
   // POWER & SPEED
@@ -644,6 +732,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=WNwNrEjB_8s",
   },
   {
     id: "m26",
@@ -654,6 +743,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "12 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=OcmCcvmOlQ0",
   },
   {
     id: "m27",
@@ -664,6 +754,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=36vnWAkL7ZQ",
   },
   {
     id: "m28",
@@ -674,6 +765,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "6 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=rGZF0gj-vjY",
   },
 
   // EXPLOSIVE ROTATION
@@ -686,6 +778,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "8 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=fCR3gVqsTBI",
   },
   {
     id: "m30",
@@ -696,6 +789,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "8 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=3_x1lB9jOQ4",
   },
   {
     id: "m31",
@@ -706,6 +800,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "8 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=HLwSkCBM_xY",
   },
   {
     id: "m32",
@@ -716,6 +811,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "6 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=5eQaPG4arVo",
   },
   {
     id: "m33",
@@ -726,6 +822,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "8 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=ayaL-xZRAFY",
   },
   {
     id: "m34",
@@ -736,6 +833,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "6 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=-ITYZTuHYlw",
   },
 
   // ANTI-ROTATION (builds rotation power through stability)
@@ -748,6 +846,7 @@ export const mainExercises: Exercise[] = [
     sets: "2",
     reps: "12 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=y30uEJhBTwQ",
   },
   {
     id: "m36",
@@ -758,6 +857,7 @@ export const mainExercises: Exercise[] = [
     sets: "2",
     reps: "12 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=T5MEEtY78YE",
   },
   {
     id: "m37",
@@ -768,6 +868,7 @@ export const mainExercises: Exercise[] = [
     sets: "4",
     reps: "5 slides each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=IuaVDDYciNc",
   },
   {
     id: "m38",
@@ -778,6 +879,7 @@ export const mainExercises: Exercise[] = [
     sets: "4",
     reps: "5 each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=te1rv8hxg-k",
   },
   {
     id: "m39",
@@ -788,6 +890,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 circles each direction",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=PZAYbjkBXWM",
   },
   {
     id: "m40",
@@ -798,6 +901,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=PEVQ-GWQjyc",
   },
 
   // STAMINA & ENDURANCE
@@ -810,6 +914,7 @@ export const mainExercises: Exercise[] = [
     sets: "4",
     reps: "20m walks",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=1uOs1hP3u4A",
   },
   {
     id: "m42",
@@ -820,6 +925,7 @@ export const mainExercises: Exercise[] = [
     sets: "4",
     reps: "15m each hand",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=_f17ljGZWq0",
   },
   {
     id: "m43",
@@ -830,6 +936,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "20 sec each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=AiYzzRoXOEY",
   },
   {
     id: "m44",
@@ -840,6 +947,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "10 total jumps",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=APueXKUp1Fk",
   },
   {
     id: "m45",
@@ -850,6 +958,7 @@ export const mainExercises: Exercise[] = [
     sets: "3",
     reps: "12",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=x0lCCVMSLCg",
   },
 ];
 
@@ -862,6 +971,7 @@ export const cooldownExercises: Exercise[] = [
       "On back, knees to one side, arms spread, head opposite direction. Hold and breathe deeply.",
     duration: "60 sec each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=ElKoMMaTPCM",
   },
   {
     id: "c2",
@@ -871,6 +981,7 @@ export const cooldownExercises: Exercise[] = [
       "Standard child's pose, walk hands to one side for lateral stretch. Alternate sides.",
     duration: "60 sec each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=smg0YxUcTiE",
   },
   {
     id: "c3",
@@ -880,6 +991,7 @@ export const cooldownExercises: Exercise[] = [
       "On back, ankle crossed over opposite knee. Pull bottom leg toward chest. Deep glute stretch.",
     duration: "60 sec each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=ckHZyA99Das",
   },
   {
     id: "c4",
@@ -889,6 +1001,7 @@ export const cooldownExercises: Exercise[] = [
       "Feet hip width, fold forward, let head hang heavy. Grab opposite elbows and sway gently.",
     duration: "60 sec",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=XAmZYIYIOWo",
   },
   {
     id: "c5",
@@ -898,6 +1011,7 @@ export const cooldownExercises: Exercise[] = [
       "Half-kneeling, squeeze back glute, reach same-side arm up and over. Deep hip flexor release.",
     duration: "60 sec each side",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=iAPA5ej6eSM",
   },
   {
     id: "c6",
@@ -907,5 +1021,6 @@ export const cooldownExercises: Exercise[] = [
       "Roll out calves, quads, IT band, lats, and upper back. Spend extra time on tight spots.",
     duration: "5 min",
     source: "TPI",
+    url: "https://www.youtube.com/watch?v=Oz4xHEgMaLY",
   },
 ];

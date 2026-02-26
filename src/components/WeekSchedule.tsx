@@ -2,36 +2,12 @@ import { useApp } from "@/context/AppContext";
 import { SessionCard } from "./SessionCard";
 import { FitnessSessionCard } from "./FitnessSessionCard";
 import type { GolfSession, FitnessSession } from "@/types";
+import { calculateCompletion } from "@/lib/utils";
 
 export function WeekSchedule() {
   const { state } = useApp();
 
-  // Calculate total blocks/exercises
-  const { totalBlocks, completedBlocks } = state.schedule.reduce(
-    (acc, session) => {
-      if (session.type === "golf") {
-        return {
-          totalBlocks: acc.totalBlocks + session.blocks.length,
-          completedBlocks:
-            acc.completedBlocks +
-            session.blocks.filter((b) => b.completed).length,
-        };
-      } else {
-        const total = session.mainExercises.length + 2; // +2 for warmup/cooldown
-        const completed =
-          (session.warmup.completed ? 1 : 0) +
-          session.mainExercises.filter((e) => e.completed).length +
-          (session.cooldown.completed ? 1 : 0);
-        return {
-          totalBlocks: acc.totalBlocks + total,
-          completedBlocks: acc.completedBlocks + completed,
-        };
-      }
-    },
-    { totalBlocks: 0, completedBlocks: 0 }
-  );
-
-  const overallProgress = Math.round((completedBlocks / totalBlocks) * 100);
+  const { total: totalBlocks, completed: completedBlocks, percent: overallProgress } = calculateCompletion(state.schedule);
 
   return (
     <div className="max-w-lg mx-auto px-4 py-6">

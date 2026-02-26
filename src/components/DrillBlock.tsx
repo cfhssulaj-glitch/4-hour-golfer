@@ -1,4 +1,5 @@
-import { Clock } from "lucide-react";
+import { useState } from "react";
+import { Clock, ExternalLink, Heart, MessageSquare, Shuffle } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Block } from "@/types";
 import { cn } from "@/lib/utils";
@@ -7,9 +8,25 @@ interface DrillBlockProps {
   block: Block;
   blockNumber: number;
   onToggle: () => void;
+  onSwap?: () => void;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+  note?: string;
+  onNoteChange?: (text: string) => void;
 }
 
-export function DrillBlock({ block, blockNumber, onToggle }: DrillBlockProps) {
+export function DrillBlock({
+  block,
+  blockNumber,
+  onToggle,
+  onSwap,
+  isFavorite,
+  onToggleFavorite,
+  note,
+  onNoteChange,
+}: DrillBlockProps) {
+  const [showNote, setShowNote] = useState(false);
+
   return (
     <div
       className={cn(
@@ -50,15 +67,70 @@ export function DrillBlock({ block, blockNumber, onToggle }: DrillBlockProps) {
             {block.drill.description}
           </p>
 
-          <p className="text-xs text-slate-500 mt-2">
-            Source: {block.drill.source}
-          </p>
+          <div className="flex items-center gap-3 mt-2">
+            <p className="text-xs text-slate-500">
+              Source: {block.drill.source}
+            </p>
+            {block.drill.url && (
+              <a
+                href={block.drill.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-emerald-400 hover:text-emerald-300 transition-colors"
+                title="Watch video"
+              >
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            )}
+          </div>
+
+          {showNote && onNoteChange && (
+            <textarea
+              value={note || ""}
+              onChange={(e) => onNoteChange(e.target.value)}
+              placeholder="Add a note..."
+              className="mt-2 w-full bg-slate-700/50 border border-slate-600 rounded-lg p-2 text-sm text-white placeholder-slate-500 resize-none focus:outline-none focus:border-emerald-500"
+              rows={2}
+            />
+          )}
         </div>
       </div>
 
-      {/* Block number indicator */}
-      <div className="absolute top-3 right-3 text-xs text-slate-500 font-mono">
-        Block {blockNumber}/4
+      <div className="absolute top-3 right-3 flex items-center gap-1.5">
+        {onToggleFavorite && (
+          <button
+            onClick={onToggleFavorite}
+            className={cn(
+              "p-1 rounded hover:bg-slate-600/50 transition-colors",
+              isFavorite ? "text-red-400" : "text-slate-500 hover:text-red-400"
+            )}
+            title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          >
+            <Heart className="h-3.5 w-3.5" fill={isFavorite ? "currentColor" : "none"} />
+          </button>
+        )}
+        {onNoteChange && (
+          <button
+            onClick={() => setShowNote(!showNote)}
+            className={cn(
+              "p-1 rounded hover:bg-slate-600/50 transition-colors",
+              note ? "text-emerald-400" : "text-slate-500 hover:text-white"
+            )}
+            title="Notes"
+          >
+            <MessageSquare className="h-3.5 w-3.5" />
+          </button>
+        )}
+        {onSwap && (
+          <button
+            onClick={onSwap}
+            className="p-1 rounded hover:bg-slate-600/50 text-slate-500 hover:text-white transition-colors"
+            title="Swap drill"
+          >
+            <Shuffle className="h-3.5 w-3.5" />
+          </button>
+        )}
+        <span className="text-xs text-slate-500 font-mono">Block {blockNumber}/4</span>
       </div>
     </div>
   );
